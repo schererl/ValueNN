@@ -231,6 +231,18 @@ class NNModel(AGENT):
         return max_move
 
 
+class HumanAgent(AGENT):
+    def evaluate(self, game:Amazons):
+        moves = game.available_moves()
+        choosen_move = None
+
+        for i in range(len(moves)):
+            print(i, " - ", moves[i])
+
+        choosen_move = int(input("Select Move: "))
+
+        return moves[choosen_move]
+
 class STOCHASTICNN(AGENT):
     def __init__(self, metamodel, prob):
         self.model = metamodel.trained_model
