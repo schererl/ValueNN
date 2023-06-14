@@ -20,9 +20,12 @@ class Amazons:
         self.game_over = False
         self.winner = None
         self.last_moved_piece = None
+
         # Place amazons
         self.board[0][1] = self.board[0][3] = PLAYER_X
         self.board[4][1] = self.board[4][3] = PLAYER_O
+    
+        self.network_state = self._NN_state()
     def curr_mover(self):
       return self.current_state[0]
     def deep_copy(self):
@@ -51,10 +54,13 @@ class Amazons:
         elif curr_action == 'MOVE' and self.is_valid_move(src, dest):
             self.board[src[0]][src[1]], self.board[dest[0]][dest[1]] = EMPTY, curr_player
             self.last_moved_piece = dest  # Save the new position of the moved piece
+            self.network_state = self._NN_state()
             self.next_state()
             return True
         elif curr_action == 'THROW' and self.is_valid_arrow_position(arrow):
             self.board[arrow[0]][arrow[1]] = ARROW
+            self.network_state = self._NN_state()
+            
             self.next_state()
             return True
         else:
@@ -150,7 +156,7 @@ class Amazons:
       return moves
 
 
-    def NN_state(self):
+    def _NN_state(self):
         nn_player = [1] if self.curr_mover()==PLAYER_X else [0]
         p1 = np.zeros(25)
         p2 = np.zeros(25)
@@ -163,9 +169,6 @@ class Amazons:
                     p2[i * len(self.board[0]) + j] = 1
                 elif self.board[i][j] == ARROW:
                     arrow[i * len(self.board[0]) + j] = 1
-        # self.print_NN('p1', p1)
-        # self.print_NN('p2', p2)
-        # self.print_NN('arrow', arrow)
         nn_state = np.concatenate((nn_player, p1, p2, arrow))
         return nn_state
 
