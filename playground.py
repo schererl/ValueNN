@@ -1,56 +1,18 @@
 from Amazons import Amazons
 from agentes import StochasticModel, NoModel, ValueNetwork
 from metamodel import METAMODEL
+import stats
+
 import os
 import json
 import time
 
-_stats_folder = 'STATISTICS/'
-def store_states(model, n_games, filename):
-    states = []
 
-    for _ in range(n_games):
-        game = Amazons()
-        while not game.check_game_over():
-            move = model.evaluate(game.deep_copy())
-            game.play(*move)
-            states.append(game.network_state.tolist())  # Convert ndarray to list here
-
-    with open(_stats_folder+filename, 'w') as f:
-        json.dump(states, f)
+stats.generate_heatmaps()
 
 
-def compute_probabilities(filename):
-    with open(_stats_folder+filename, 'r') as f:
-        states = json.load(f)
-    
-    total_moves = len(states)
-    ones_count = [0]*len(states[0])
 
-    for state in states:
-        for i, val in enumerate(state):
-            if val == 1:
-                ones_count[i] += 1
 
-    probabilities = [count/total_moves for count in ones_count]
-
-    return probabilities
-
-def print_probabilities(lst):
-    mover = lst[0:1]
-    p1 = lst[1:26]
-    p2 = lst[26:51]
-    arrow = lst[51:]
-
-    mover = ["{:.2f}".format(i) for i in mover]
-    p1 = ["{:.2f}".format(i) for i in p1]
-    p2 = ["{:.2f}".format(i) for i in p2]
-    arrow = ["{:.2f}".format(i) for i in arrow]
-
-    print(f"Mover {len(mover)}: {mover}")
-    print(f"P1 {len(p1)}: {p1}")
-    print(f"P2 {len(p2)}: {p2}")
-    print(f"Arrow {len(arrow)}: {arrow}")
 
 ## FIRST GOOD TEST
 ### HERE I COULD FORCE A FAIR OUTCOME OF MODEL X MODEL WHEN USING STOCHASTIC AGENT
@@ -77,12 +39,16 @@ def print_probabilities(lst):
 #store_states(model.agent_model, 1000, file_name)
 #print_probabilities(compute_probabilities(file_name))
 
-model = METAMODEL(need_train=False, model_name='TOPMODEL')
-model.agent_model = StochasticModel(model, 0.3)
-store_states(model.agent_model, 1000, 'ST-topmodel')
-print_probabilities(compute_probabilities('ST-topmodel'))
+# random vs random test
+#rnd = NoModel()
+#store_states(rnd, 1000, 'ST-rnd')
+#print_probabilities(compute_probabilities('ST-rnd'))
 
-
+# model vs model test
+#model = METAMODEL(need_train=False, model_name='TOPMODEL')
+#model.agent_model = StochasticModel(model.agent_model, 0.3)
+#store_states(model.agent_model, 1000, 'ST-topmodel')
+#print_probabilities(compute_probabilities('ST-topmodel'))
 
 
 
