@@ -33,6 +33,6 @@ def battle(agent1, agent2, debug=False):
     if game.winner == Amazons.PLAYER_X:
         print("VENCEDOR: X")
     else:
-        print("VENCEDOR: X")
+        print("VENCEDOR: O")
 
 battle(agent, HumanAgent())
