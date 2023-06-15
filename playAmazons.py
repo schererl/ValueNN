@@ -1,6 +1,7 @@
 import Amazons
 from agentes import StochasticModel, ValueNetwork, HumanAgent
 from metamodel import METAMODEL
+from colorama import Fore
 
 import os
 import time
@@ -16,9 +17,11 @@ def battle(agent1, agent2, debug=False):
     states = []
 
     game.print_board()
+
     time.sleep(1)
 
     while not game.check_game_over():
+
         if game.curr_mover() == Amazons.PLAYER_X:
             move = agent1.evaluate(game.deep_copy())
             game.play(*move)
@@ -31,8 +34,8 @@ def battle(agent1, agent2, debug=False):
         game.print_board()
         
     if game.winner == Amazons.PLAYER_X:
-        print("VENCEDOR: X")
+        print("VENCEDOR:" + Fore.RED + "X")
     else:
-        print("VENCEDOR: O")
+        print("VENCEDOR:" + Fore.GREEN + "O")
 
-battle(agent, HumanAgent())
+battle(HumanAgent(), agent)

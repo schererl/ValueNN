@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 import random
 import time
 import os
+from colorama import Fore
 
 import torch
 import torch.nn as nn
@@ -81,6 +82,12 @@ class HumanAgent(AGENT):
         choosen_move = None
 
         os.system('clear')
+
+        print("Voce é: ", end="")
+        if game.curr_mover() == Amazons.PLAYER_X:
+            print(Fore.RED + " X \n")
+        else:
+            print(Fore.GREEN + " O \n")
 
         game.print_moves_board(moves)
 
