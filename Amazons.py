@@ -194,3 +194,34 @@ class Amazons:
                 print(Fore.WHITE + " 0 ", end="")
         print(Fore.WHITE)
     
+    def print_moves_board(self, moves):
+        # moves: 
+        # [((4, 1), (4, 2), None), ...] when player
+        # or ((4, 2), None, (3, 2)) when arrow
+
+        for i in range(BOARD_SIZE):
+            for j in range(BOARD_SIZE):
+                if self.board[i][j] == PLAYER_X:
+                    print(Fore.RED + " X  ", end="")
+                elif self.board[i][j] == PLAYER_O:
+                    print(Fore.GREEN + " O  ", end="")
+                elif self.board[i][j] == ARROW:
+                    print(Fore.YELLOW + " ^  ", end="")
+                else:
+                    pos = 1 if moves[0][1] != None else 2
+
+                    pos_move = None
+
+                    for m in range(len(moves)):
+                        if moves[m][pos] == (i,j):
+                            pos_move = str(m)
+
+                    # for move in moves:
+                    #     if move[pos] == (i,j): 
+                    if pos_move != None:#moves != [] and any(move[pos] == (i,j) for move in moves):
+                        # move_number = [m[0] for m in enumerate(moves) if m[1][1] == (i,j)][0]
+                        msg = " " + str(pos_move)
+                        print(Fore.BLUE + msg + " "*(4-len(msg)), end="")
+                    else:
+                        print(Fore.WHITE + " o  ", end="")
+            print(Fore.WHITE)

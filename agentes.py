@@ -5,6 +5,7 @@ import os
 
 import torch
 import torch.nn as nn
+from colorama import Fore
 
 import Amazons
 class AGENT:
@@ -73,3 +74,25 @@ class StochasticModel(AGENT):
             return self.rnd.evaluate(game)
         else:
             return self.agent.evaluate(game)
+        
+class HumanAgent(AGENT):
+    def evaluate(self, game:Amazons):
+        moves = game.available_moves()
+        choosen_move = None
+
+        os.system('clear')
+
+        print("Voce é: ", end="")
+        if game.curr_mover() == Amazons.PLAYER_X:
+            print(Fore.RED + " X \n")
+        else:
+            print(Fore.GREEN + " O \n")
+
+        game.print_moves_board(moves)
+
+        for i in range(len(moves)):
+            print(i, " - ", moves[i])
+
+        choosen_move = int(input("Select Move Number: "))
+
+        return moves[choosen_move]
