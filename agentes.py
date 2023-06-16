@@ -94,7 +94,14 @@ class HumanAgent(AGENT):
         game.print_moves_board(moves)
 
         for i in range(len(moves)):
-            print(i, " - ", moves[i])
+            m = moves[i]
+            str_move = ''
+            if m[1] != None:
+                str_m = f'MOVE from ({m[0][0]},{m[0][1]}) to ({m[1][0]},{m[1][1]})'
+            else:
+                str_m = f'THROW arrow at ({m[2][0]},{m[2][1]})'
+                
+            print(i, " - ", str_move)
 
         while True:
             try:
