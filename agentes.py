@@ -96,6 +96,13 @@ class HumanAgent(AGENT):
         for i in range(len(moves)):
             print(i, " - ", moves[i])
 
-        choosen_move = int(input("Select Move Number: "))
+        while True:
+            try:
+                choosen_move = int(input("Select Move Number: "))
+
+                if choosen_move < len(moves):
+                    break
+            except:
+                continue
 
         return moves[choosen_move]
