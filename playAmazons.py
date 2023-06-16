@@ -2,6 +2,7 @@ import Amazons
 from agentes import StochasticModel, ValueNetwork, HumanAgent
 from metamodel import METAMODEL
 from colorama import Fore
+import IPython
 import random
 
 import os
@@ -32,6 +33,7 @@ def battle(agent1, agent2, debug=False):
         
         states.append(game.network_state)
         os.system('clear')
+        IPython.display.clear_output(wait=True)
         game.print_board()
         
     if game.winner == Amazons.PLAYER_X:
