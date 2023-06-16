@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 import random
 import time
 import os
+import IPython # so can clean jupiter terminal
 
 import torch
 import torch.nn as nn
@@ -50,6 +51,7 @@ class ValueNetwork(AGENT):
             
             if debug:
                 os.system('clear')
+                IPython.display.clear_output(wait=True)
                 game.print_board()
                 print('\n')
                 game_cpy.print_board()
@@ -81,6 +83,7 @@ class HumanAgent(AGENT):
         choosen_move = None
 
         os.system('clear')
+        IPython.display.clear_output(wait=True)
 
         print("Voce é: ", end="")
         if game.curr_mover() == Amazons.PLAYER_X:
